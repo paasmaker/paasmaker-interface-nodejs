@@ -1,0 +1,18 @@
+{
+  "name": "paasmaker",
+  "version": "0.9.0",
+  "description": "Configuration helper to allow node.js applications to run on the Paasmaker platform as a service.",
+  "main": "paasmaker-interface.js",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/paasmaker/paasmaker-interface-nodejs.git"
+  },
+  "author": "Paasmaker Team (http://paasmaker.org)",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "assert": "*"
+  }
+}

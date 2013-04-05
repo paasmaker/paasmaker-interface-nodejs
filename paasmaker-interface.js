@@ -1,8 +1,7 @@
 
 var fs = require('fs');
 
-// NOTE: We're using sync operators in this file for
-// simplicity.
+// NOTE: We're using sync operators in this file for simplicity.
 
 // Read environment variables.
 function loadFromEnvironment() {
@@ -32,6 +31,8 @@ function loadFromFiles(files) {
 					// Stop processing.
 					return;
 				}
+			} else {
+				throw new Error("Couldn't load config file: " + filename);
 			}
 		}
 
