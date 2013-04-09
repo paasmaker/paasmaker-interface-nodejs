@@ -1,19 +1,44 @@
-// Test for the interface.
+// Test for the node.js interface.
 
 var assert = require('assert');
-var pminterface = require('./paasmaker-interface.js');
-
-console.log("Testing no environment variables and no overrides.")
+var paasmaker = require('./paasmaker-interface.js');
 
 // First run - try to call load. It will fail because it's not running on
 // Paasmaker and there are no files to load.
+console.log("Testing no environment variables and no overrides.")
+
 assert.throws(
 	function() {
-		pminterface.load();
+		new paasmaker();
 	},
-	Error,
-	/No files/
+	/No config files were supplied/
 );
+
+// Try to load non-existent configuration files; should also throw errors.
+console.log("Testing configuration file load errors.");
+
+assert.throws(
+	function() {
+		new paasmaker([]);
+	},
+	/Empty array of config files/
+);
+assert.throws(
+	function() {
+		new paasmaker(['configs/noexist.json', 'configs/noexist2.json']);
+	},
+	/load any of the supplied config/
+);
+
+// Now try to load from a configuration file.
+console.log("Testing loading from configuration file.");
+
+var pm = new paasmaker(['configs/noexist.json', 'configs/test.json']);
+
+assert.strictEqual(pm.port, 9000);
+assert.ok(pm.metadata);
+assert.equal(pm.metadata.application.name, "test");
+assert.ok(pm.services.parameters);
 
 // Now try loading from environment variables.
 console.log("Testing loading from environment variables.");
@@ -31,27 +56,13 @@ process.env.PM_METADATA = JSON.stringify({
 });
 process.env.PM_PORT = "42600";
 
-pminterface = require('./paasmaker-interface.js');
+var pm = new paasmaker();
 
-pminterface.load();
-
-assert.ok(pminterface.metadata);
-assert.ok(pminterface.services);
-assert.ok(pminterface.services.variables);
-assert.strictEqual(pminterface.metadata.port, 42600);
+assert.ok(pm.metadata);
+assert.ok(pm.services);
+assert.ok(pm.services.variables);
+assert.strictEqual(pm.port, 42600);
 
 delete process.env['PM_SERVICES']
 delete process.env['PM_METADATA']
 delete process.env['PM_PORT']
-
-// Now try to load from a configuration file.
-console.log("Testing loading from configuration file.");
-
-pminterface = require('./paasmaker-interface.js');
-
-pminterface.load(['configs/noexist.json', 'configs/test.json']);
-
-assert.strictEqual(pminterface.metadata.port, 9000);
-assert.ok(pminterface.metadata);
-assert.equal(pminterface.metadata.name, "test");
-assert.ok(pminterface.services.parameters);
