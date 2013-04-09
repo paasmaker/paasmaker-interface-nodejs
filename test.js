@@ -1,7 +1,7 @@
 // Test for the node.js interface.
 
 var assert = require('assert');
-var paasmaker = require('./paasmaker-interface.js');
+var paasmaker = require('./paasmaker.js');
 
 // First run - try to call load. It will fail because it's not running on
 // Paasmaker and there are no files to load.

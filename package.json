@@ -2,7 +2,7 @@
   "name": "paasmaker",
   "version": "0.9.0",
   "description": "Configuration helper to allow node.js applications to run on the Paasmaker platform as a service.",
-  "main": "paasmaker-interface.js",
+  "main": "paasmaker.js",
   "repository": {
     "type": "git",
     "url": "https://bitbucket.org/paasmaker/paasmaker-interface-nodejs.git"
